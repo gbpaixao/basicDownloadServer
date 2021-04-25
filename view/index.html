@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Server</title>
+</head>
+<body>
+    <h1>Links para download: </h1>
+    <script>
+        fetch("http://localhost:4000/files")
+        .then(function (serverResponse) {
+            return serverResponse.json();
+        })
+        .then(function (res) {
+            if (res.length === 0) {
+                var p = document.createElement("P")
+                p.innerHTML = "Não existem links disponíveis";
+                document.body.appendChild(p);
+            }
+            else {
+                res.map((item, index) => {
+                    var link = document.createElement("A");
+                    link.innerHTML = item.name;
+                    link.href = item.url;
+                    document.body.appendChild(link);
+                    document.body.appendChild(document.createElement("BR"));
+                })
+            }
+        })
+        .catch(function (error) {
+            console.log("Error: " + error);
+        });
+    </script>
+</body>
+</html>
